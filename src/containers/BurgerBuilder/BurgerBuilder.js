@@ -44,8 +44,8 @@ class BurgerBuilder extends Component {
             .map(igKey => {
                 return ingredients[igKey];
             })
-            .reduce((sum, el) => {
-                return sum + el;
+            .reduce((sum1, el) => {
+                return sum1 + el;
             }, 0);
         this.setState({ purchasable: sum > 0 });
     }
@@ -91,7 +91,7 @@ class BurgerBuilder extends Component {
 
     purchaseContinueHandler = () => {
         // alert('You continue!');
-        this.setState({ loading: true });
+       /*  this.setState({ loading: true });
         const order = {
             ingredient: this.state.ingredients,
             price: this.state.totalPrice,
@@ -112,7 +112,19 @@ class BurgerBuilder extends Component {
             })
             .catch(error => {
                 this.setState({ loading: false, purchasing: false })
-            });
+            }); */
+            const queryParam = []
+            for (let i in this.state.ingredients){
+     
+                queryParam.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i])) //encodeURIComponent encodes elements such that they can be used  in URL
+            }
+            const queryString = queryParam.join('&');
+            this.props.history.push(
+                {
+                    pathname: "/checkout",
+                    search: '?' + queryString
+                }
+            )
     }
 
     render() {
